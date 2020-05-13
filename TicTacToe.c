@@ -14,6 +14,7 @@ const int convertTo25[USETABLE] = {
     16,17,18
 };
 
+const int Directions[4] = {1, 5, 4, 6};
 
 void initBoard(){
     for (int i=0; i<MAXTABLE; i++){
@@ -46,6 +47,19 @@ void makeMove(int sq, int side){
     board[sq] = side;
 }
 
+int getComputerMove(){
+    int freePlaces = 0;
+    int availableMoves[9];
+    int rndMove = 0;
+
+    for (int i=0; i<USETABLE; i++){
+        if( board[convertTo25[i]] == E){
+            availableMoves[freePlaces++] = convertTo25[i];
+        }
+    }
+    rndMove = (rand()  % freePlaces);
+    return availableMoves[rndMove];
+}
 
 int getHumanMove(){
 
@@ -82,8 +96,15 @@ void runGame(){
             side = O;
             printBoard();
         }else{
+            lastMoveMade = getComputerMove();
+            makeMove( lastMoveMade, side);
+            side = X;
+            printBoard();
         }
 
+//        if (){
+
+  //      }
 
         if(!hasEmpty()){
             printf("DRAW\n");
