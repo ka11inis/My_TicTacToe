@@ -2,20 +2,26 @@
 #include <stdlib.h>
 #include <string.h>
 
+//Αρχικοποίηση μεγέθους πινάκων
 #define MAXTABLE 25 
 #define USETABLE 9
+//Αρχικοποίηση μεταβλητών και πινάκων
 int board[ MAXTABLE ];
 enum {E, O, X, B};
 enum {HUMAN_WIN, COMPUTER_WIN, DRAW};
 
+//Χρησιμοποιείται για την μετατροπή του πίνακα με τα όρια σε 
+//πίνακα με μεταβλητές από 0-8 που θα δίνει ο χρήστης
 const int convertTo25[USETABLE] = {
     6,7,8,
     11,12,13,
     16,17,18
 };
 
+//Για τις κατευθύνσεις που θα ελέγχει τη νίκη   
 const int Directions[4] = {1, 5, 4, 6};
 
+//Αρχικοποίηση πίνακα 
 void initBoard(){
     for (int i=0; i<MAXTABLE; i++){
         board[i] = B;
@@ -25,6 +31,7 @@ void initBoard(){
     }
 }
 
+//Εκτύπωση Board
 void printBoard(){
     char intToChar[] = "-OX+";
     printf("\nBoard\n");
@@ -35,6 +42,7 @@ void printBoard(){
     printf("\n");
 }
 
+//Έλεγχος του πίνακα εάν έχει κάποια άδεια θέση 
 int hasEmpty(){
     for (int i=0; i<USETABLE; i++){
         if (board[convertTo25[i]] == E) 
