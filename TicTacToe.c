@@ -51,10 +51,12 @@ int hasEmpty(){
     return 0;
 }
 
+//Κάνει την κίνηση στο Board
 void makeMove(int sq, int side){
     board[sq] = side;
 }
 
+//Υπολογίζει την τυχαία κίνηση για τον υπολογιστή
 int getComputerMove(){
     int freePlaces = 0;
     int availableMoves[9];
@@ -69,6 +71,7 @@ int getComputerMove(){
     return availableMoves[rndMove];
 }
 
+//Εισαγωγή κίνησης για τον χρήστη (από το πληκτρολόγιο)
 int getHumanMove(){
 
     int place = -1;
@@ -89,6 +92,8 @@ int getHumanMove(){
     }while( place<0 || place>9);
 return convertTo25[place];
 }
+
+//Εκκίνηση παιχνιδιού
 void runGame(){
     int gameOver = 0,
     side = X,
@@ -110,10 +115,12 @@ void runGame(){
             printBoard();
         }
 
+        //Έλεγχος για το εάν υπάρχει νικητής
 //        if (){
 
   //      }
 
+        //Έλεγχος για το εάν υπάρχει άδεια θέση αλλιώς είναι ισοπαλία 
         if(!hasEmpty()){
             printf("DRAW\n");
             gameOver = 1;            
