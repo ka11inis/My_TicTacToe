@@ -88,13 +88,36 @@ void makeMove(int sq, int side){
     board[sq] = side;
 }
 
+int getWinningMove(const int side){
+    int ourMove = -1, winFound = 0;
+
+    for (int i=0; i < 9; i++){
+        if (board[ convertTo25[i] ] == E){
+            ourMove = convertTo25[i];
+            board[ourMove] = side;
+
+            if(findThreeInARow(ourMove, side) == 3 ){
+                winFound = 1;
+            }
+            board[ourMove] = E;
+            if(winFound) break;
+        }
+        ourMove = -1;
+    }
+    return ourMove;
+}
+
 //Υπολογίζει την τυχαία κίνηση για τον υπολογιστή
 //When it is the computer turn it calculates a random move
-int getComputerMove(){
+int getComputerMove(const int side){
     int freePlaces = 0;
     int availableMoves[9];
     int rndMove = 0;
 
+    rndMove = getWinningMove(side);
+    if(rndMove != -1) return rndMove;
+    
+    rndMove = 0;
     for (int i=0; i<USETABLE; i++){
         if( board[convertTo25[i]] == E){
             availableMoves[freePlaces++] = convertTo25[i];
@@ -144,7 +167,7 @@ void runGame(){
             side = O;
             printBoard();
         }else{
-            lastMoveMade = getComputerMove();
+            lastMoveMade = getComputerMove(side);
             makeMove( lastMoveMade, side);
             side = X;
             printBoard();
