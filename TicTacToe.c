@@ -3,15 +3,19 @@
 #include <string.h>
 
 //Αρχικοποίηση μεγέθους πινάκων
+//Initialization table size
 #define MAXTABLE 25 
 #define USETABLE 9
 //Αρχικοποίηση μεταβλητών και πινάκων
+//Initialization variable and tables
 int board[ MAXTABLE ];
 enum {E, O, X, B};
 enum {HUMAN_WIN, COMPUTER_WIN, DRAW};
 
 //Χρησιμοποιείται για την μετατροπή του πίνακα με τα όρια σε 
 //πίνακα με μεταβλητές από 0-8 που θα δίνει ο χρήστης
+//It is used to transform the table with boundaries into
+//table which accept variables in a range from 0 to 8.
 const int convertTo25[USETABLE] = {
     6,7,8,
     11,12,13,
@@ -19,9 +23,11 @@ const int convertTo25[USETABLE] = {
 };
 
 //Για τις κατευθύνσεις που θα ελέγχει τη νίκη   
+//It is for the directions which are used to check the winner
 const int Directions[4] = {1, 5, 4, 6};
 
 //Αρχικοποίηση πίνακα 
+//Initialization table
 void initBoard(){
     for (int i=0; i<MAXTABLE; i++){
         board[i] = B;
@@ -32,6 +38,7 @@ void initBoard(){
 }
 
 //Εκτύπωση Board
+//Print Board
 void printBoard(){
     char intToChar[] = "-OX+";
     printf("\nBoard\n");
@@ -43,6 +50,7 @@ void printBoard(){
 }
 
 //Έλεγχος του πίνακα εάν έχει κάποια άδεια θέση 
+//Check the table if there is an empty space
 int hasEmpty(){
     for (int i=0; i<USETABLE; i++){
         if (board[convertTo25[i]] == E) 
@@ -52,11 +60,13 @@ int hasEmpty(){
 }
 
 //Κάνει την κίνηση στο Board
+//Makes the move on the Board
 void makeMove(int sq, int side){
     board[sq] = side;
 }
 
 //Υπολογίζει την τυχαία κίνηση για τον υπολογιστή
+//When it is the computer turn it calculates a random move
 int getComputerMove(){
     int freePlaces = 0;
     int availableMoves[9];
@@ -72,6 +82,7 @@ int getComputerMove(){
 }
 
 //Εισαγωγή κίνησης για τον χρήστη (από το πληκτρολόγιο)
+//Input move from user (through keyboard)
 int getHumanMove(){
 
     int place = -1;
@@ -94,6 +105,7 @@ return convertTo25[place];
 }
 
 //Εκκίνηση παιχνιδιού
+//Start the game
 void runGame(){
     int gameOver = 0,
     side = X,
@@ -116,11 +128,13 @@ void runGame(){
         }
 
         //Έλεγχος για το εάν υπάρχει νικητής
+        //Check if there is a winner
 //        if (){
 
   //      }
 
         //Έλεγχος για το εάν υπάρχει άδεια θέση αλλιώς είναι ισοπαλία 
+        //Check if there are any empty places otherwise it is a draw
         if(!hasEmpty()){
             printf("DRAW\n");
             gameOver = 1;            
