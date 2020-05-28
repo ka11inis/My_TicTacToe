@@ -22,6 +22,9 @@ const int convertTo25[USETABLE] = {
     16,17,18
 };
 
+const int InMiddle = 4;
+const int Corners[4] = {0, 2, 6, 8};
+
 //Για τις κατευθύνσεις που θα ελέγχει τη νίκη   
 //It is for the directions which are used to check the winner
 const int Directions[4] = {1, 5, 4, 6};
@@ -88,6 +91,19 @@ void makeMove(int sq, int side){
     board[sq] = side;
 }
 
+int getNextBest(){
+    int ourMove = convertTo25[InMiddle];
+    if(board[ourMove] == E) return ourMove;
+
+    ourMove = -1;
+    for(int i=0; i<4; i++){
+        ourMove = convertTo25[Corners[i]];
+        if(board[ourMove] == E) break;
+        ourMove = -1;
+    }
+    return ourMove;
+}
+
 int getWinningMove(const int side){
     int ourMove = -1, winFound = 0;
 
@@ -113,10 +129,20 @@ int getComputerMove(const int side){
     int freePlaces = 0;
     int availableMoves[9];
     int rndMove = 0;
-
+    
+    //get winnimg move
     rndMove = getWinningMove(side);
     if(rndMove != -1) return rndMove;
     
+    //block move 
+    rndMove = getWinningMove(side ^1);
+    if(rndMove != -1) return rndMove;
+    
+    //get next best move
+    rndMove = getNextBest();
+    if(rndMove != -1) return rndMove;
+    
+    //otherwise pick random
     rndMove = 0;
     for (int i=0; i<USETABLE; i++){
         if( board[convertTo25[i]] == E){
@@ -159,24 +185,23 @@ void runGame(){
     
 
     initBoard();
-
+    printBoard();
+    
     while(!gameOver){
         if (side == X){
             lastMoveMade  = getHumanMove();
             makeMove( lastMoveMade, side);
             side = O;
-            printBoard();
         }else{
             lastMoveMade = getComputerMove(side);
             makeMove( lastMoveMade, side);
             side = X;
-            printBoard();
         }
-
+        
+        printBoard();
         //Έλεγχος για το εάν υπάρχει νικητής
         //Check if there is a winner
         if (findThreeInARow(lastMoveMade, side^1) == 3){
-            printBoard();
             printf("Game Over!\n");
             if(side == X){
                 printf("Computer ( O )  wins\n");
@@ -198,8 +223,6 @@ void runGame(){
 
 int main (int argc, char* argv[]){
 
-    initBoard();
-    printBoard();
     runGame();
     return 1;
 }
